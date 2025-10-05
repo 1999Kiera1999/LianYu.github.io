@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>廉语数字人平台</title>
+    <style>
+        /* 全局样式 */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #F5F5F5;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        /* Header 样式 */
+        .header {
+            background-color: #A50021;
+            color: #FFECD2;
+            padding: 30px 0;  /* 增加顶部和底部的间距 */
+            font-size: 70px;
+            font-weight: bold;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding-left: 120px;
+            padding-right: 40px;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 0; /* 去掉与下方的间距 */
+            height: 120px; /* 手动增加高度，确保红色区域足够覆盖页面顶部 */
+        }
+
+        .header .title {
+            font-family: '方正舒体', sans-serif;
+            font-size: 80px;
+            text-align: left;
+            margin-right: 20px;
+        }
+
+        .header .subtitle {
+            font-family: '黑体', sans-serif;
+            font-size: 20px;
+            color: lightgray;
+            position: relative;
+            top: 25px;
+            left: 40px;
+        }
+
+        /* 标签页样式 */
+        .tabs {
+            display: flex;
+            justify-content: flex-end;
+            background-color: #A50021;
+            padding: 10px 20px;
+            position: absolute;
+            right: 100px;
+            top: 40px;
+            width: 40%; /* 与头部保持一致的宽度 */
+        }
+
+        .tabs a {
+            background-color: #333333;
+            color: white;
+            padding: 15px 40px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 0 15px;
+            display: inline-block;
+            font-size: 18px;
+        }
+
+        .tabs a:hover {
+            background-color: #555555;
+        }
+
+        /* 内容区域 */
+        .content {
+            display: flex;
+            justify-content: space-between;
+            height: calc(100vh - 120px);  /* 填充剩余空间 */
+            padding: 20px 0;
+            box-sizing: border-box;
+            overflow-y: auto;
+            margin-top: 0; /* 去掉顶部间隙 */
+        }
+
+        /* 左右蓝色边框 */
+        .left, .right {
+            width: 12%;
+            background-color: #B5DBEE;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        .left, .right {
+            border-radius: 0; /* 保持直角 */
+        }
+
+        .center {
+            width: 76%;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #F5F5F5;
+            overflow-y: auto;
+        }
+
+        /* 标签页内容 */
+        .tab-content {
+            display: none;
+            height: 100%;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* 数字人页面 */
+        .person-list {
+            width: 20%; /* 缩小按钮宽度 */
+            display: inline-block;
+            vertical-align: top;
+            padding: 20px;
+            box-sizing: border-box;
+            height: 100%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .person-list ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .person-list ul li {
+            background-color: #333333;
+            color: white;
+            padding: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .person-list ul li:hover {
+            background-color: #555555;
+        }
+
+        .video-container {
+            width: 75%; /* 增加视频框宽度 */
+            display: inline-block;
+            vertical-align: top;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .video-container video {
+            width: 100%;
+            height: auto;
+        }
+
+        /* 廉洁人物部分样式 */
+        .person-card {
+            width: 30%;
+            margin: 10px;
+            display: inline-block;
+            vertical-align: top;
+            text-align: center;
+        }
+
+        .person-card img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .person-card .name {
+            background-color: #333333;
+            color: white;
+            padding: 10px;
+            margin-top: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+        }
+
+        .person-card .name:hover {
+            background-color: #555555;
+        }
+
+        /* 参与搭建表单 */
+        .upload-section {
+            margin: 20px 0;
+        }
+
+        .upload-section input[type="text"], .upload-section textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .upload-section input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #fff;
+        }
+
+        .submit-btn {
+            background-color: #333333;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background-color: #555555;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="title">廉语</div>
+        <div class="subtitle">———— 数字人廉洁文化平台</div>
+    </div>
+
+    <div class="tabs">
+        <a href="javascript:void(0);" class="tab-btn" data-tab="tab1">廉洁人物</a>
+        <a href="javascript:void(0);" class="tab-btn" data-tab="tab2">数字人</a>
+        <a href="javascript:void(0);" class="tab-btn" data-tab="tab3">参与搭建</a>
+    </div>
+
+    <div class="content">
+        <!-- 左侧边框 -->
+        <div class="left"></div>
+
+        <!-- 中间内容区域 -->
+        <div class="center">
+            <!-- 廉洁人物 Tab -->
+            <div id="tab1" class="tab-content active">
+                <h2>廉洁人物</h2>
+                <div class="person-card">
+                    <img src="./焦裕禄0.jpg" alt="焦裕禄">
+                    <a href="jiaoyulu.html" class="name">焦裕禄</a>
+                </div>
+                <div class="person-card">
+                    <img src="./王进喜0.png" alt="王进喜">
+                    <a href="#王进喜" class="name">王进喜</a>
+                </div>
+                <div class="person-card">
+                    <img src="./孙家栋0.png" alt="孙家栋">
+                    <a href="#孙家栋" class="name">孙家栋</a>
+                </div>
+                <div class="person-card">
+                    <img src="./王锋0.webp" alt="王锋">
+                    <a href="#王锋" class="name">王锋</a>
+                </div>
+                <div class="person-card">
+                    <img src="./支月英0.jpg" alt="支月英">
+                    <a href="#支月英" class="name">支月英</a>
+                </div>
+                <div class="person-card">
+                    <img src="./秦玥飞0.jpg" alt="秦玥飞">
+                    <a href="#秦玥飞" class="name">秦玥飞</a>
+                </div>
+            </div>
+
+            <!-- 数字人 Tab -->
+            <div id="tab2" class="tab-content">
+                <h2>数字人展示</h2>
+                <div style="display: flex; justify-content: space-between;">
+                    <!-- 左侧按钮栏 -->
+                    <div class="person-list">
+                        <ul>
+                            <li data-video="./焦裕禄示例.mp4">焦裕禄</li>
+                            <li data-video="video2.mp4">王进喜</li>
+                            <li data-video="video3.mp4">孙家栋</li>
+                            <li data-video="video4.mp4">王锋</li>
+                            <li data-video="video5.mp4">支月英</li>
+                            <li data-video="video6.mp4">秦玥飞</li>
+                        </ul>
+                    </div>
+                    <!-- 右侧视频展示区 -->
+                    <div class="video-container">
+                        <video id="person-video" controls>
+                            <source id="video-src" src="" type="video/mp4">
+                            您的浏览器不支持视频播放。
+                        </video>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 参与搭建 Tab -->
+            <div id="tab3" class="tab-content">
+                <h2>参与搭建</h2>
+                <div class="upload-section">
+                    <label for="name">人物名字</label>
+                    <input type="text" id="name" placeholder="请输入人物名字">
+
+                    <label for="photo">照片</label>
+                    <input type="file" id="photo">
+
+                    <label for="audio">音频</label>
+                    <input type="file" id="audio">
+
+                    <label for="bio">文案</label>
+                    <textarea id="bio" placeholder="请输入人物文案"></textarea>
+
+                    <button class="submit-btn">提交</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右侧边框 -->
+        <div class="right"></div>
+    </div>
+
+    <script>
+        // 标签页切换
+        const tabs = document.querySelectorAll('.tab-btn');
+        const contents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const activeTab = this.getAttribute('data-tab');
+
+                contents.forEach(content => {
+                    if (content.id === activeTab) {
+                        content.classList.add('active');
+                    } else {
+                        content.classList.remove('active');
+                    }
+                });
+
+                tabs.forEach(tabBtn => {
+                    if (tabBtn === this) {
+                        tabBtn.style.backgroundColor = '#555555';
+                    } else {
+                        tabBtn.style.backgroundColor = '#333333';
+                    }
+                });
+            });
+        });
+
+        // 数字人视频选择
+        const videoList = document.querySelectorAll('.person-list ul li');
+        const videoElement = document.getElementById('person-video');
+        const videoSrc = document.getElementById('video-src');
+
+        videoList.forEach(item => {
+            item.addEventListener('click', function() {
+                const videoFile = this.getAttribute('data-video');
+                videoSrc.src = videoFile;
+                videoElement.load();
+                videoElement.play();
+            });
+        });
+    </script>
+
+</body>
+</html>
